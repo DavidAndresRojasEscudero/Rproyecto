@@ -9,9 +9,8 @@ class ControladorPartidos(Partidos):
         unPartido = \
             {
                 "_id": "1",
-                "nombre_partido": "liberal",
-                "candidato": "Gustavo Petro",
-                "cedula": "9876654321",
+                "nombre_partido": "Partido liberal",
+                "Lema": "Equidad para todos"
             }
 
         return [unPartido]
@@ -22,7 +21,6 @@ class ControladorPartidos(Partidos):
 
     def show(self, id):
         elPartido = {"_id": "1",
-                     "nombre_partido": "liberal",
-                     "candidato": "Gustavo Petro",
-                     "cedula": "9876654321"}
+                "nombre_partido": "Partido liberal",
+                "Lema": "Equidad para todos"}
         return elPartido
