@@ -1,35 +1,21 @@
+from Repositorios.RepositorioMesas import RepositorioMesas
 from Modelos.Mesas import Mesas
 
 
-class ControladorMesas():
+class ControladorMesas(Mesas):
     def __init__(self):
-        print("")
+        self.repositorioMesas = RepositorioMesas()
 
     def index(self):
-        MesasR ={
-            "_id": "1",
-            "cedulas_registradas": "123456789",
-            }
-        return [MesasR]
+        return self.repositorioMesas.findAll()
 
     def create(self, infoMesa):
-        LaMesa = Mesas(infoMesa)
-        return LaMesa.__dict__
+        nuevaMesa = Mesas(infoMesa)
+        return self.repositorioMesas.save(nuevaMesa)
 
     def show(self, id):
-        laMesa = {
-            "_id": "1",
-            "cedulas_registradas": "123456789",
-        }
-        return laMesa
+        laMesa = Mesas(self.repositorioMesas.findById(id))
+        return laMesa.__dict__
 
-    # funsion para actualizar un estudiante
-    # def update(self,id,infoEstudiante):
-    #   print("Actualizando estudiante con id", id)
-    #  elEstudiante=Estudiante(infoEstudiante)
-    # return elEstudiante.__dict__
-
-    # funsion para eliminar un estudiante
-    # def delete(self,id):
-    #   print("eliminando estudiante con id",id)
-    #  return {"deleted_count": 1}
+    def delete(self,id):
+            return self.repositorioMesas.delete(id)
