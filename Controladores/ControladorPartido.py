@@ -19,7 +19,7 @@ class ControladorPartidos(Partidos):
         return elPartido.__dict__
 
     def show(self, id):
-        elPartido = {"_id": "1",
+        elPartido = {"_id": id,
                 "nombre_partido": "Partido liberal",
                 "Lema": "Equidad para todos"}
         return elPartido
