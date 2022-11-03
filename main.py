@@ -6,12 +6,14 @@ import json
 from waitress import serve
 from Controladores.ControladorMesas import ControladorMesas
 from Controladores.ControladorPartido import ControladorPartidos
+from Rproyecto.Controladores.ControladorCandidatos import ControladorCandidatos
 
 app = Flask(__name__)
 cors = CORS(app)
 
 miControladorPartidos = ControladorPartidos()
 miControladorMesas = ControladorMesas()
+miControladorCandidatos = ControladorCandidatos()
 
 
 @app.route("/", methods=['GET'])
@@ -43,6 +45,17 @@ def crearMesa():
     jso = miControladorMesas.create(data)
     return jsonify(jso)
 
+
+@app.route("/candidatos", methods=['POST'])
+def crearCandidato():
+    data = request.get_json()
+    jso = miControladorCandidatos.create(data)
+    return jsonify(jso)
+
+@app.route("/candidatos", methods=['GET'])
+def getCandidatos():
+    jso = miControladorCandidatos.index()
+    return jsonify(jso)
 
 ####################
 @app.route("/partidos", methods=['GET'])
