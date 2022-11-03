@@ -6,8 +6,7 @@ class ControladorPartidos(Partidos):
         print("")
 
     def index(self):
-        unPartido = \
-            {
+        unPartido ={
                 "_id": "1",
                 "nombre_partido": "Partido liberal",
                 "Lema": "Equidad para todos"
