@@ -34,8 +34,8 @@ class ControladorCandidato():
 
 
 #Relacion uno a muchos candidato a partido 
-    def asignarPartido(self,idCandidato,idPartido):
-        candidatoActual = Candidato(self.repositorioCandidato.findById(idCandidato))
+    def asignarPartido(self,id,idPartido):
+        candidatoActual = Candidato(self.repositorioCandidato.findById(id))
         partidoActual = Partidos(self.repositorioPartido.findById(idPartido))
         candidatoActual.partido = partidoActual
         return self.repositorioCandidato.save(candidatoActual)

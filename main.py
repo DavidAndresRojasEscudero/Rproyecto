@@ -1,5 +1,3 @@
-import pymongo
-import certifi
 from flask import Flask
 from flask import jsonify
 from flask import request
@@ -20,13 +18,13 @@ miControladorMesas = ControladorMesas()
 miControladorCandidatos = ControladorCandidato()
 miControladorResultado = ControladorResultado()
 
-
+# endpoint del home
 @app.route("/", methods=['GET'])
 def test():
     dicc = {"Test:": "Servidor en ejecucion"}
     return jsonify(dicc)
 
-
+#  ENDPOINTS MESAS:
 # Endpoint para mostrar todas las mesas
 
 @app.route("/mesas", methods=['GET'])
@@ -56,7 +54,8 @@ def deleteMesa(id):
     return jsonify(jso)
 
 
-####################
+#  ENDPOINTS PARTIDOS:
+# Endpoint para mostrar todos los partidos
 @app.route("/partidos", methods=['GET'])
 def getPartidos():
     jso = miControladorPartidos.index()
@@ -78,7 +77,18 @@ def crearPartido():
     jso = miControladorPartidos.create(data)
     return jsonify(jso)
 
+@app.route("/partidos/<string:id>", methods=['UPDATE'])
+def updatePartido(id):
+    data = request.get_json()
+    jso = miControladorPartidos.update(id, data)
+    return jsonify(jso)
 
+@app.route("/partidos/<string:id>", methods=['DELETE'])
+def deletePartido(id):
+    jso = miControladorPartidos.delete(id)
+    return jsonify(jso)
+
+#  ENDPOINTS CANDIDATOS:
 # Endpoint para mostrar un candidatos
 @app.route("/candidatos", methods=['GET'])
 def getCandidatos():
@@ -119,6 +129,7 @@ def asignarPartido(id,idPartido):
     jso = miControladorCandidatos.asignarPartido(id,idPartido)
     return jsonify(jso)
 
+#  ENDPOINTS RESULTADOS:
 # Endpoint para mostrar un resultado
 @app.route("/resultados", methods=['GET'])
 def getResultados():
@@ -131,17 +142,22 @@ def getResultado(id):
     return jsonify(jso)
 
 
-@app.route("/resultados/candidatos/<string:idCadidato>/mesas/<string:idMesa>", methods=['POST'])
-def crearResultado(idCadidato,idMesa):
+@app.route("/resultados/mesas/<string:idMesa>/candidatos/<string:idCandidato>", methods=['POST'])
+def crearResultado(idMesa, idCadidato):
     data = request.get_json()
     print(data, idCadidato, idMesa)
-    jso = miControladorResultado.create(data, idCadidato, idMesa)
+    jso = miControladorResultado.create(data,idMesa,idCadidato)
     return jsonify(jso)
 
-@app.route("/resultados/<string:id>/candidatos/<string:id_candidato>/mesas/<string:id_mesa>", methods=['PUT'])
-def actualizarResultado(id,id_cadidato,id_mesa):
+@app.route("/resultados/<string:id>/mesas/<string:id_mesa>/candidatos/<string:id_candidato>", methods=['PUT'])
+def actualizarResultado(id, id_mesa,id_cadidato):
     data = request.get_json()
     jso = miControladorResultado.update(id, data, id_cadidato, id_mesa)
+    return jsonify(jso)
+
+@app.route("/resultados/candidato/<string:id_candidato>",methods=['GET'])
+def resultadosEnCandidato(idCandidato):
+    jso = miControladorResultado.listarResultadosEnCandidato(idCandidato)
     return jsonify(jso)
 
 @app.route("/resultados/<string:id>", methods=['DELETE'])

@@ -19,15 +19,15 @@ class ControladorResultado():
      """    
 
 
-     def create(self, infoResultado, idCandidato, idMesa):
+     def create(self, infoResultado, idMesa, idCandidato):
         nuevoResultado = Resultado(infoResultado)
         print(nuevoResultado)
-        elCandidato = Candidato(self.repositorioCandidato.findById(idCandidato))
-        print(elCandidato)
         laMesa = Mesas(self.repositorioMesas.findById(idMesa))
         print(laMesa)
-        nuevoResultado.candidato = elCandidato
-        nuevoResultado.mesa = laMesa
+        elCandidato = Candidato(self.repositorioCandidato.findById(idCandidato))
+        print(elCandidato)  
+        nuevoResultado.mesa = laMesa      
+        nuevoResultado.candidato = elCandidato        
         return self.repositorioResultado.save(nuevoResultado)
        
 
@@ -39,15 +39,20 @@ class ControladorResultado():
      Modificación de resultado candidato y mesa
      """
 
-     def update(self,id,infoResultado, idCandidato, idMesa):
+     def update(self,id,infoResultado, idMesa, idCandidato):
         resultadoActual = Resultado(self.repositorioResultado.findById(id))
         resultadoActual.numero_votos=infoResultado["numero_votos"]
-        elCandidato = Candidato(self.repositorioCandidato.findById(idCandidato))
         laMesa = Mesas(self.repositorioMesas.findById(idMesa))
-        resultadoActual.candidato = elCandidato
-        resultadoActual.mesa = laMesa
+        elCandidato = Candidato(self.repositorioCandidato.findById(idCandidato))  
+        resultadoActual.mesa = laMesa      
+        resultadoActual.candidato = elCandidato        
         return self.repositorioResultado.save(resultadoActual)
         
 
      def delete(self,id):
         return self.repositorioResultado.delete(id)
+
+     def listarResultadosEnCandidato(self, idCandidato):
+        return self.repositorioResultado.getListadoResultadosEnCandidato(idCandidato)
+
+   
